@@ -9,6 +9,8 @@ from graphrag_mcp_server.server.tools import (
     BASIC_SEARCH_TOOL,
     BUILD_INDEX_TOOL,
     GET_STATISTICS_TOOL,
+    IMPORT_DOCUMENT_TOOL,
+    IMPORT_DIRECTORY_TOOL,
     get_tool_by_name,
     list_tool_names,
 )

@@ -166,6 +166,74 @@ async def list_tools() -> list[Tool]:
                 "properties": {},
             },
         ),
+        Tool(
+            name="import_document",
+            description="Import a document into GraphRAG for indexing. Supports PDF, DOCX, PPTX, HTML, MD, and TXT formats.",
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "file_path": {
+                        "type": "string",
+                        "description": "Path to the document file to import",
+                    },
+                    "chunk_size": {
+                        "type": "integer",
+                        "description": "Target chunk size in characters",
+                        "default": 1000,
+                    },
+                    "chunk_overlap": {
+                        "type": "integer",
+                        "description": "Overlap between chunks in characters",
+                        "default": 100,
+                    },
+                    "auto_detect_language": {
+                        "type": "boolean",
+                        "description": "Automatically detect document language",
+                        "default": True,
+                    },
+                    "build_correlation_graph": {
+                        "type": "boolean",
+                        "description": "Build correlation graph between chunks",
+                        "default": True,
+                    },
+                },
+                "required": ["file_path"],
+            },
+        ),
+        Tool(
+            name="import_directory",
+            description="Import all documents from a directory into GraphRAG.",
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "directory_path": {
+                        "type": "string",
+                        "description": "Path to the directory containing documents",
+                    },
+                    "extensions": {
+                        "type": "array",
+                        "items": {"type": "string"},
+                        "description": "File extensions to include (e.g., ['.pdf', '.docx'])",
+                    },
+                    "recursive": {
+                        "type": "boolean",
+                        "description": "Whether to search subdirectories",
+                        "default": True,
+                    },
+                    "chunk_size": {
+                        "type": "integer",
+                        "description": "Target chunk size in characters",
+                        "default": 1000,
+                    },
+                    "chunk_overlap": {
+                        "type": "integer",
+                        "description": "Overlap between chunks in characters",
+                        "default": 100,
+                    },
+                },
+                "required": ["directory_path"],
+            },
+        ),
     ]
 
 
@@ -189,6 +257,10 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[TextContent]:
     from graphrag_mcp_server.handlers.index import (
         handle_build_index,
         handle_get_statistics,
+    )
+    from graphrag_mcp_server.handlers.import_handler import (
+        handle_import_document,
+        handle_import_directory,
     )
 
     try:
@@ -221,6 +293,22 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[TextContent]:
             )
         elif name == "get_statistics":
             result = await handle_get_statistics()
+        elif name == "import_document":
+            result = await handle_import_document(
+                file_path=arguments["file_path"],
+                chunk_size=arguments.get("chunk_size", 1000),
+                chunk_overlap=arguments.get("chunk_overlap", 100),
+                auto_detect_language=arguments.get("auto_detect_language", True),
+                build_correlation_graph=arguments.get("build_correlation_graph", True),
+            )
+        elif name == "import_directory":
+            result = await handle_import_directory(
+                directory_path=arguments["directory_path"],
+                extensions=arguments.get("extensions"),
+                recursive=arguments.get("recursive", True),
+                chunk_size=arguments.get("chunk_size", 1000),
+                chunk_overlap=arguments.get("chunk_overlap", 100),
+            )
         else:
             result = f"Unknown tool: {name}"
 

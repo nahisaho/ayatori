@@ -206,6 +206,117 @@ Parameters: None
     }
 }
 
+IMPORT_DOCUMENT_TOOL = {
+    "name": "import_document",
+    "description": """Import a document into GraphRAG for indexing.
+
+Parses and chunks a document, preparing it for GraphRAG indexing.
+Supports multiple formats:
+- PDF (.pdf)
+- Microsoft Word (.docx)
+- Microsoft PowerPoint (.pptx)
+- HTML (.html, .htm)
+- Markdown (.md)
+- Plain text (.txt)
+
+The import process:
+1. Parses document to extract structured elements
+2. Normalizes elements to consistent format
+3. Chunks text with language-aware strategies (auto-detects Japanese)
+4. Builds correlation graph between chunks
+5. Returns import result with chunks ready for indexing
+
+Parameters:
+- file_path: Path to the document file to import
+- chunk_size: Target chunk size in characters (default=1000)
+- chunk_overlap: Overlap between chunks (default=100)
+- auto_detect_language: Whether to auto-detect language (default=true)
+- build_correlation_graph: Whether to build chunk correlations (default=true)
+""",
+    "inputSchema": {
+        "type": "object",
+        "properties": {
+            "file_path": {
+                "type": "string",
+                "description": "Path to the document file to import"
+            },
+            "chunk_size": {
+                "type": "integer",
+                "description": "Target chunk size in characters",
+                "default": 1000,
+                "minimum": 100,
+                "maximum": 10000
+            },
+            "chunk_overlap": {
+                "type": "integer",
+                "description": "Overlap between chunks in characters",
+                "default": 100,
+                "minimum": 0
+            },
+            "auto_detect_language": {
+                "type": "boolean",
+                "description": "Automatically detect document language",
+                "default": True
+            },
+            "build_correlation_graph": {
+                "type": "boolean",
+                "description": "Build correlation graph between chunks",
+                "default": True
+            }
+        },
+        "required": ["file_path"]
+    }
+}
+
+IMPORT_DIRECTORY_TOOL = {
+    "name": "import_directory",
+    "description": """Import all documents from a directory into GraphRAG.
+
+Recursively processes all supported documents in a directory.
+Same processing as import_document but for multiple files.
+
+Parameters:
+- directory_path: Path to the directory containing documents
+- extensions: File extensions to include (default: all supported)
+- recursive: Whether to search subdirectories (default=true)
+- chunk_size: Target chunk size in characters (default=1000)
+- chunk_overlap: Overlap between chunks (default=100)
+""",
+    "inputSchema": {
+        "type": "object",
+        "properties": {
+            "directory_path": {
+                "type": "string",
+                "description": "Path to the directory containing documents"
+            },
+            "extensions": {
+                "type": "array",
+                "items": {"type": "string"},
+                "description": "File extensions to include (e.g., ['.pdf', '.docx'])"
+            },
+            "recursive": {
+                "type": "boolean",
+                "description": "Whether to search subdirectories",
+                "default": True
+            },
+            "chunk_size": {
+                "type": "integer",
+                "description": "Target chunk size in characters",
+                "default": 1000,
+                "minimum": 100,
+                "maximum": 10000
+            },
+            "chunk_overlap": {
+                "type": "integer",
+                "description": "Overlap between chunks in characters",
+                "default": 100,
+                "minimum": 0
+            }
+        },
+        "required": ["directory_path"]
+    }
+}
+
 
 # All available tools
 ALL_TOOLS = [
@@ -215,6 +326,8 @@ ALL_TOOLS = [
     BASIC_SEARCH_TOOL,
     BUILD_INDEX_TOOL,
     GET_STATISTICS_TOOL,
+    IMPORT_DOCUMENT_TOOL,
+    IMPORT_DIRECTORY_TOOL,
 ]
 
 

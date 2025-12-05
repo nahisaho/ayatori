@@ -10,6 +10,8 @@ from graphrag_mcp_server.server.tools import (
     BASIC_SEARCH_TOOL,
     BUILD_INDEX_TOOL,
     GET_STATISTICS_TOOL,
+    IMPORT_DOCUMENT_TOOL,
+    IMPORT_DIRECTORY_TOOL,
     get_tool_by_name,
     list_tool_names,
 )
@@ -19,8 +21,8 @@ class TestToolDefinitions:
     """Tests for tool definition structure."""
     
     def test_all_tools_contains_expected_count(self):
-        """ALL_TOOLS should contain exactly 6 tools."""
-        assert len(ALL_TOOLS) == 6
+        """ALL_TOOLS should contain exactly 8 tools."""
+        assert len(ALL_TOOLS) == 8
     
     def test_all_tools_have_required_fields(self):
         """Each tool should have name, description, and inputSchema."""
@@ -76,6 +78,23 @@ class TestToolDefinitions:
         assert GET_STATISTICS_TOOL["name"] == "get_statistics"
         assert GET_STATISTICS_TOOL["inputSchema"]["required"] == []
 
+    def test_import_document_tool_structure(self):
+        """IMPORT_DOCUMENT_TOOL should have correct structure."""
+        assert IMPORT_DOCUMENT_TOOL["name"] == "import_document"
+        assert "file_path" in IMPORT_DOCUMENT_TOOL["inputSchema"]["properties"]
+        assert "chunk_size" in IMPORT_DOCUMENT_TOOL["inputSchema"]["properties"]
+        assert "chunk_overlap" in IMPORT_DOCUMENT_TOOL["inputSchema"]["properties"]
+        assert "auto_detect_language" in IMPORT_DOCUMENT_TOOL["inputSchema"]["properties"]
+        assert IMPORT_DOCUMENT_TOOL["inputSchema"]["required"] == ["file_path"]
+
+    def test_import_directory_tool_structure(self):
+        """IMPORT_DIRECTORY_TOOL should have correct structure."""
+        assert IMPORT_DIRECTORY_TOOL["name"] == "import_directory"
+        assert "directory_path" in IMPORT_DIRECTORY_TOOL["inputSchema"]["properties"]
+        assert "extensions" in IMPORT_DIRECTORY_TOOL["inputSchema"]["properties"]
+        assert "recursive" in IMPORT_DIRECTORY_TOOL["inputSchema"]["properties"]
+        assert IMPORT_DIRECTORY_TOOL["inputSchema"]["required"] == ["directory_path"]
+
 
 class TestGetToolByName:
     """Tests for get_tool_by_name function."""
@@ -89,7 +108,8 @@ class TestGetToolByName:
     def test_get_all_tools_by_name(self):
         """Should be able to retrieve all tools by name."""
         tool_names = ["global_search", "local_search", "drift_search", 
-                      "basic_search", "build_index", "get_statistics"]
+                      "basic_search", "build_index", "get_statistics",
+                      "import_document", "import_directory"]
         for name in tool_names:
             tool = get_tool_by_name(name)
             assert tool is not None
@@ -105,15 +125,16 @@ class TestListToolNames:
     """Tests for list_tool_names function."""
     
     def test_list_returns_all_names(self):
-        """Should return all 6 tool names."""
+        """Should return all 8 tool names."""
         names = list_tool_names()
-        assert len(names) == 6
+        assert len(names) == 8
     
     def test_list_contains_expected_names(self):
         """Should contain all expected tool names."""
         names = list_tool_names()
         expected = ["global_search", "local_search", "drift_search",
-                    "basic_search", "build_index", "get_statistics"]
+                    "basic_search", "build_index", "get_statistics",
+                    "import_document", "import_directory"]
         for name in expected:
             assert name in names
     

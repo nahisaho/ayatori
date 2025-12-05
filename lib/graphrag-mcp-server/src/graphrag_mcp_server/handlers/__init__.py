@@ -35,6 +35,10 @@ from graphrag_mcp_server.handlers.cache import (
     get_search_cache,
     cached_search,
 )
+from graphrag_mcp_server.handlers.import_handler import (
+    handle_import_document,
+    handle_import_directory,
+)
 
 __all__ = [
     # Search
@@ -67,4 +71,7 @@ __all__ = [
     "SearchCache",
     "get_search_cache",
     "cached_search",
+    # Import
+    "handle_import_document",
+    "handle_import_directory",
 ]
