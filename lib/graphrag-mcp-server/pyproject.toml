@@ -45,6 +45,13 @@ azure = [
     "azure-search-documents>=11.4.0",
     "azure-identity>=1.15.0",
 ]
+import = [
+    "unstructured @ git+https://github.com/Unstructured-IO/unstructured.git",
+    "fugashi>=1.3.0",
+    "unidic-lite>=1.0.8",
+    "langdetect>=1.0.9",
+    "networkx>=3.0",
+]
 
 [project.scripts]
 graphrag-mcp = "graphrag_mcp_server.cli.main:app"
@@ -53,6 +60,9 @@ graphrag-mcp = "graphrag_mcp_server.cli.main:app"
 Homepage = "https://github.com/nahisaho/ayatori"
 Repository = "https://github.com/nahisaho/ayatori"
 Documentation = "https://github.com/nahisaho/ayatori#readme"
+
+[tool.hatch.metadata]
+allow-direct-references = true
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/graphrag_mcp_server"]
