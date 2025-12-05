@@ -1,0 +1,16 @@
+{
+    "mcpServers": {
+        "graphrag-azure": {
+            "command": "graphrag-mcp",
+            "args": ["serve", "--transport", "stdio"],
+            "env": {
+                "GRAPHRAG_INDEX_PATH": "${workspaceFolder}/graphrag_index",
+                "GRAPHRAG_LLM_PROVIDER": "azure_openai",
+                "GRAPHRAG_LLM_MODEL": "gpt-4o",
+                "GRAPHRAG_AZURE_OPENAI_ENDPOINT": "${env:AZURE_OPENAI_ENDPOINT}",
+                "GRAPHRAG_LLM_API_KEY": "${env:AZURE_OPENAI_API_KEY}",
+                "GRAPHRAG_AZURE_OPENAI_DEPLOYMENT": "gpt-4o"
+            }
+        }
+    }
+}

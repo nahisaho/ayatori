@@ -1,0 +1,12 @@
+{
+  "servers": {
+    "codegraph": {
+      "type": "stdio",
+      "command": "${workspaceFolder}/.mcp/CodeGraphMCPServer/.venv/bin/python",
+      "args": ["-m", "codegraph_mcp_server", "serve"],
+      "env": {
+        "CODEGRAPH_REPOSITORY_PATH": "${workspaceFolder}"
+      }
+    }
+  }
+}

@@ -1,0 +1,14 @@
+{
+    "mcpServers": {
+        "graphrag": {
+            "command": "graphrag-mcp",
+            "args": ["serve", "--transport", "stdio"],
+            "env": {
+                "GRAPHRAG_INDEX_PATH": "${workspaceFolder}/graphrag_index",
+                "GRAPHRAG_LLM_PROVIDER": "openai",
+                "GRAPHRAG_LLM_MODEL": "gpt-4o",
+                "GRAPHRAG_LLM_API_KEY": "${env:OPENAI_API_KEY}"
+            }
+        }
+    }
+}

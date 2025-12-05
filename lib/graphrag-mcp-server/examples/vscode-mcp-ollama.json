@@ -1,0 +1,15 @@
+{
+    "mcpServers": {
+        "graphrag-ollama": {
+            "command": "graphrag-mcp",
+            "args": ["serve", "--transport", "stdio"],
+            "env": {
+                "GRAPHRAG_INDEX_PATH": "${workspaceFolder}/graphrag_index",
+                "GRAPHRAG_LLM_PROVIDER": "ollama",
+                "GRAPHRAG_LLM_MODEL": "llama3.2",
+                "GRAPHRAG_OLLAMA_BASE_URL": "http://localhost:11434",
+                "GRAPHRAG_EMBEDDING_MODEL": "nomic-embed-text"
+            }
+        }
+    }
+}

@@ -1,0 +1,87 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "graphrag-mcp-server"
+version = "0.1.0"
+description = "MCP Server for Microsoft GraphRAG - Enables AI assistants to query knowledge graphs"
+readme = "README.md"
+license = "MIT"
+requires-python = ">=3.11"
+authors = [
+    { name = "ayatori", email = "ayatori@example.com" }
+]
+keywords = ["graphrag", "mcp", "rag", "knowledge-graph", "ai"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+
+dependencies = [
+    "graphrag>=2.0.0",
+    "mcp>=1.0.0",
+    "typer>=0.12.0",
+    "pydantic>=2.0.0",
+    "pydantic-settings>=2.0.0",
+    "rich>=13.0.0",
+    "esperanto>=0.1.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0.0",
+    "pytest-asyncio>=0.23.0",
+    "pytest-cov>=4.0.0",
+    "ruff>=0.5.0",
+    "mypy>=1.10.0",
+]
+azure = [
+    "azure-search-documents>=11.4.0",
+    "azure-identity>=1.15.0",
+]
+
+[project.scripts]
+graphrag-mcp = "graphrag_mcp_server.cli.main:app"
+
+[project.urls]
+Homepage = "https://github.com/nahisaho/ayatori"
+Repository = "https://github.com/nahisaho/ayatori"
+Documentation = "https://github.com/nahisaho/ayatori#readme"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/graphrag_mcp_server"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+asyncio_mode = "auto"
+asyncio_default_fixture_loop_scope = "function"
+
+[tool.ruff]
+line-length = 88
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "SIM"]
+
+[tool.mypy]
+python_version = "3.11"
+strict = true
+warn_return_any = true
+warn_unused_ignores = true
+
+[tool.coverage.run]
+source = ["src/graphrag_mcp_server"]
+branch = true
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "if TYPE_CHECKING:",
+    "raise NotImplementedError",
+]
